@@ -1,4 +1,4 @@
-export { default as App } from './App';
+export { default as App } from './App.jsx'; // Changed from './App' to './App.jsx'
 export * from './components/atomos/BtnCerrar';
 export * from './components/atomos/Colorcontent.jsx';
 export * from './components/atomos/ContentFiltros';
