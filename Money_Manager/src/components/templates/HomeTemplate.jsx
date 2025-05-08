@@ -9,32 +9,24 @@ export function HomeTemplate() {
           <Carousel />
         </Box>
         <Title>
-          Bienvenido a Cerdyn <br /> 🐷
+          Bienvenido a MONEY MANAGER <br /> 
         </Title>
         <SubText>
-          Cerdyn nace por las pocas aplicaciones gratis que existen para
+          MONEY MANAGER nace por las pocas aplicaciones gratis que existen para
           controlar gastos e ingresos.
           <br />
-          ❤️Está surgiendo como curso para lograr presupuestarlo,
+          La idea es que puedas controlar tus gastos e ingresos de una manera
+          sencilla y rápida.
           <br /> MUCHAS GRACIAS POR APOYAR ESTE PROYECTO
         </SubText>
-        <ContainerAutor>
-          <div className="contentImg">
-            <img src="https://i.ibb.co/6Nw0B9p/yjtityutyu.png" />
-          </div>
-          <div className="contentDescripcion">
-            <b>Ing. Franklin Bustamante</b>
-            <span>"cualquiera puede programar"</span>
-          </div>
-        </ContainerAutor>
         <ButtonContainer>
-          <Btnsave url="https://t.me/htmlycss369"
-            titulo="UNIRSE A Telegram"
+          <Btnsave url="https://www.tdea.edu.co/"
+            titulo="UNETE A NOSOTROS"
             bgcolor="#BF94FF"
             icono={<v.iconoreact />}
           />
-          <Btnsave url="https://www.udemy.com/course/sistema-para-el-control-de-gastos-con-reactjs-y-postgresql/?couponCode=CERDYNREACT"
-            titulo="Ver curso"
+          <Btnsave url="https://www.tdea.edu.co/"
+            titulo="Ver mas"
             bgcolor="#fb37b7"
             icono={<v.iconocorona />}
           />
