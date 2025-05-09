@@ -1,83 +1,95 @@
-import styled from "styled-components";
-import { Btnsave, v,useAuthStore } from "../../index";
-export function LoginTemplate() {
-  const {signInWithGoogle} = useAuthStore();
-  
-  return (
-    <Container imgfondo={v.imagenfondo}>
-      <div className="contentCard">
-        <span className="version">versión 1.0</span>
-        <div className="contentImg">
-          <img src={v.logo}/>
-        </div>
-        <Titulo>MONEY MANAGER</Titulo>
-        <p className="frase">Toma el control de tus 💵gastos e 💰ingresos</p>
-        <ContainerBtn>
-          <Btnsave titulo="Iniciar con google" icono={<v.iconogoogle />} bgcolor={v.colorSecundario} funcion={signInWithGoogle}/>
-        </ContainerBtn>
-      </div>
-    </Container>
-  );
-}
-const Container = styled.div`
-  background-image: url(${(props) => props.imgfondo});
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255, 255, 255, 0.87);
-  text-align: center;
-  .contentCard {
-    background-color: #131313;
-    border-radius: 20px;
-    gap: 30px;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    margin: 20px;
-    box-shadow: 8px 5px 18px 3px rgba(0, 0, 0, 0.35);
-    justify-content:center;
-    width:auto;
-    height:80%;
-    .version {
-      color: #727272;
-      text-align: start;
-    }
-    .contentImg{
-      width: 100%;
-      display:flex;
-      justify-content:center;
-    
-      img{
-        width: 40%;
-     
-        animation:flotar 1.5s ease-in-out infinite alternate;
+import React, { useState } from "react";
+import Imagen from "../../assets/ImagenInicio.jpg"
+import appFirebase from "../../services/firebaseconfig"
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth"
+
+const auth = getAuth(appFirebase)
+
+const Login = () => {
+
+  const [registrando, setRegistrando] = useState(false)
+
+  const functAutentication = async(e) => {
+    e.preventDefault();
+    const correo = e.target.email.value;
+    const contraseña = e.target.password.value;
+    console.log(correo);
+
+    if(registrando){
+      try {
+        await createUserWithEmailAndPassword(auth, correo, contraseña)
+      } catch (error) {
+        console.error(error);
+        alert(error.message);
+        alert("La contraseña debe tener más de 6 caracteres");
+      }
+    } else {
+      try {
+        await signInWithEmailAndPassword(auth, correo, contraseña)
+      } catch (error) {
+        alert("El correo o la contraseña son incorrectos")
       }
     }
-    .frase{
-      color: #909090;
-      font-size: 1.2rem;
-    }
   }
-  @keyframes flotar {
-    0% {
-      transform: translate(0, 0px);
-    }
-    50% {
-      transform: translate(0, 15px);
-    }
-    100% {
-      transform: translate(0, -0px);
-    }
-  }
-`;
-const Titulo = styled.span`
-  font-size: 5rem;
-  font-weight: 700;
-`;
-const ContainerBtn = styled.div`
-  display: flex;
-  justify-content: center;
-`;
+
+  return (
+      <div className="row align-items-center">
+
+        {/* Columna imagen */}
+        <div className="col-lg-6 mb-4 mb-lg-0 text-center">
+          <h2 className="text-primary fw-bold mb-4">BIENVENIDO A MONEY MANAGER</h2>
+          <img src={Imagen} alt="Imagen de inicio" className="img-fluid rounded shadow" />
+        </div>
+        
+
+        
+        {/* Columna de formulario */}
+        <div className="col-lg-6">
+          <div className="card shadow-lg border-0">
+            <div className="card-body p-4">
+              <h3 className="text-center mb-4">{registrando ? "Crear Cuenta" : "Iniciar Sesión"}</h3>
+              <form onSubmit={functAutentication}>
+                <div className="mb-3">
+                  <label htmlFor="email" className="form-label">Correo Electrónico</label>
+                  <input
+                    type="email"
+                    placeholder="Ingresar Email"
+                    className="form-control"
+                    id="email"
+                    name="email"
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="password" className="form-label">Contraseña</label>
+                  <input
+                    type="password"
+                    placeholder="Ingresar Contraseña"
+                    className="form-control"
+                    id="password"
+                    name="password"
+                  />
+                </div>
+                <button className="btn btn-primary w-100">
+                  {registrando ? "Registrarse" : "Iniciar Sesión"}
+                </button>
+              </form>
+              <div className="text-center mt-3">
+                <p className="mb-0">
+                  {registrando ? "¿Ya tienes una cuenta? " : "¿No tienes una cuenta? "}
+                  <button
+                    className="btn btn-link p-0 text-decoration-none"
+                    onClick={() => setRegistrando(!registrando)}
+                  >
+                    {registrando ? "Inicia Sesión" : "Regístrate"}
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  );
+};
+
+export default Login;
